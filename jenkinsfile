@@ -1,0 +1,19 @@
+
+
+timestamps {
+
+node () {
+  wrap([$class: 'Xvfb']) {
+	stage ('Test.App - Checkout') {
+ 	 checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'jenkins-github', url: 'https://github.com/awasthan/Test.App.git']]]) 
+	}
+	stage ('Test.App - Build') {
+ 	
+sh label: '', script: '''#!/bin/bash
+source /opt/IBM/ace-11.0.0.8/server/bin/mqsiprofile
+mqsicreatebar -data . -b ${JOB_NAME}.bar -a ${JOB_NAME}
+	}
+}
+}
+cleanWs()
+}
